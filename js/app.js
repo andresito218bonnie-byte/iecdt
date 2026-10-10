@@ -601,7 +601,7 @@
     /* --- Qué se anima y cómo: [selector, variante, retraso extra en ms] --- */
     const RV = [
       ['.hero__copy > :not(h1)', 'up'],
-      ['.hero__arch', 'arch'],
+      ['.hero__arch, .band__media', 'arch'],
       ['.hero__badge', 'pop', 1100],
       ['.band .wrap > :not(h1)', 'up'],
       ['.eyebrow, .lead, .section-head > p, .mv p, .rows, .split .btn, .feed .btn, .article__back, .byline', 'up'],
@@ -611,7 +611,7 @@
     ];
     const SPLIT = '.hero h1, .band h1, .page-title, .article h1, .h2, .h2--md';
     // Parallax: [selector, velocidad, modo] — "scroll" = según lo desplazado; "view" = según su posición en pantalla
-    const PAR = [['.hero__media', 0.1, 'scroll'], ['.hero__copy', 0.2, 'scroll'], ['.photo__frame img', 0.05, 'view']];
+    const PAR = [['.hero__media', 0.1, 'scroll'], ['.hero__copy', 0.2, 'scroll'], ['.photo__frame img', 0.05, 'view'], ['.band__media img', 0.04, 'view']];
     const par = [];
     const parSeen = new WeakSet();
     const scrub = [];
@@ -726,7 +726,6 @@
         par.push({ el, speed, mode });
       }));
 
-      if (fine) $$('.card[href]', scope).forEach((a) => { a.dataset.cursor = 'Leer'; });
     };
 
     /* --- Bucle de scroll: progreso, cabecera, parallax y texto que se ilumina --- */
@@ -771,23 +770,18 @@
     // dos frames: así el primer pintado ya muestra los estados iniciales
     requestAnimationFrame(() => requestAnimationFrame(() => html.classList.add('ready')));
 
-    /* --- Cursor, inclinación 3D, foco de luz e imán (solo con ratón) --- */
+    /* --- Halo tenue, inclinación 3D, foco de luz e imán (solo con ratón) --- */
     if (!fine) return;
-    const ring = document.createElement('div');
     const glow = document.createElement('div');
-    ring.className = 'cursor';
-    ring.innerHTML = '<span></span>';
     glow.className = 'cursor-glow';
-    [ring, glow].forEach((n) => n.setAttribute('aria-hidden', 'true'));
-    body.append(glow, ring);
+    glow.setAttribute('aria-hidden', 'true');
+    body.appendChild(glow);
 
-    let tx = -200, ty = -200, rx = tx, ry = ty, gx = tx, gy = ty, raf = 0, shown = false;
+    let tx = -300, ty = -300, gx = tx, gy = ty, raf = 0, shown = false;
     const loop = () => {
-      rx += (tx - rx) * 0.22; ry += (ty - ry) * 0.22;
-      gx += (tx - gx) * 0.08; gy += (ty - gy) * 0.08;
-      ring.style.transform = `translate3d(${rx.toFixed(1)}px, ${ry.toFixed(1)}px, 0)`;
+      gx += (tx - gx) * 0.1; gy += (ty - gy) * 0.1;
       glow.style.transform = `translate3d(${gx.toFixed(1)}px, ${gy.toFixed(1)}px, 0)`;
-      raf = Math.abs(tx - rx) + Math.abs(ty - ry) + Math.abs(tx - gx) + Math.abs(ty - gy) > 0.4 ? requestAnimationFrame(loop) : 0;
+      raf = Math.abs(tx - gx) + Math.abs(ty - gy) > 0.4 ? requestAnimationFrame(loop) : 0;
     };
 
     const TILT = '.card--feature, .card--navy, .card--grid, .level';
@@ -797,7 +791,7 @@
     document.addEventListener('pointermove', (e) => {
       if (e.pointerType === 'touch') return;
       tx = e.clientX; ty = e.clientY;
-      if (!shown) { shown = true; rx = gx = tx; ry = gy = ty; ring.classList.add('on'); glow.classList.add('on'); }
+      if (!shown) { shown = true; gx = tx; gy = ty; glow.classList.add('on'); }
       if (!raf) raf = requestAnimationFrame(loop);
 
       const t = e.target instanceof Element ? e.target : null;
@@ -823,18 +817,7 @@
       }
     }, { passive: true });
 
-    document.addEventListener('pointerover', (e) => {
-      const t = e.target instanceof Element ? e.target : null;
-      const lab = t && t.closest('[data-cursor]');
-      const act = t && t.closest('a, button, [role="tab"], label');
-      ring.classList.toggle('has-label', !!lab);
-      ring.classList.toggle('is-link', !!act && !lab);
-      ring.classList.toggle('is-text', !!(t && t.closest('input, textarea, select')));
-      if (lab) ring.firstChild.textContent = lab.dataset.cursor;
-    });
-    document.addEventListener('pointerdown', () => ring.classList.add('is-down'));
-    document.addEventListener('pointerup', () => ring.classList.remove('is-down'));
-    html.addEventListener('mouseleave', () => { shown = false; ring.classList.remove('on'); glow.classList.remove('on'); });
+    html.addEventListener('mouseleave', () => { shown = false; glow.classList.remove('on'); });
   }
 
   /* =======================================================

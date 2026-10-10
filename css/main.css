@@ -117,7 +117,14 @@ h1, h2, h3 { font-family: var(--serif); font-weight: 500; letter-spacing: -.02em
 .nav__toggle { display: none; align-items: center; justify-content: center; width: 48px; height: 48px; border: 0; background: none; color: var(--navy); }
 
 /* 6 · BANDAS DE PÁGINA (títulos de páginas internas) ---------- */
-.band { padding: 96px 0 88px; background: var(--navy); color: #fff; }
+.band { --art-w: clamp(240px, 26vw, 360px); position: relative; overflow: hidden; padding: 96px 0 88px; background: var(--navy); color: #fff; }
+.band .wrap { position: relative; z-index: 1; }
+.band--art .wrap { padding-right: calc(var(--gutter) + var(--art-w) + 32px); }
+.band__art { position: absolute; right: max(var(--gutter), calc((100% - var(--wrap)) / 2 + var(--gutter))); bottom: 0; width: var(--art-w); height: calc(100% - 56px); pointer-events: none; }
+.band__media { position: relative; width: 100%; height: 100%; overflow: hidden; border-radius: calc(var(--art-w) / 2) calc(var(--art-w) / 2) 0 0; background: var(--blue); }
+.band__media img { width: 100%; height: 100%; object-fit: cover; }
+.band__media::after { content: ""; position: absolute; inset: 0; background: linear-gradient(to top, rgba(6, 58, 134, .6), rgba(6, 58, 134, 0) 55%), rgba(10, 88, 202, .1); }
+.band__dot { position: absolute; left: -34px; top: 64px; width: 76px; height: 76px; border-radius: 50%; background: var(--yellow); }
 .band h1 { margin: 20px 0 24px; font-size: clamp(2.6rem, 7.2vw, 5.25rem); line-height: 1; color: #fff; }
 .band h1 em, .hero h1 em { color: var(--yellow); font-style: italic; }
 .band p { max-width: 620px; font-size: 19px; line-height: 1.65; color: var(--on-navy); }
@@ -317,7 +324,7 @@ button.cal__cell:hover, .cal__cell.is-selected { background: var(--bg); }
 .cal__side .btn { margin-top: 24px; }
 
 /* 10 · LOGIN Y RECUPERAR ------------------------------------ */
-.login { display: grid; grid-template-columns: 520px 1fr; gap: 88px; align-items: start; margin-top: -96px; padding-bottom: 110px; }
+.login { position: relative; z-index: 2; display: grid; grid-template-columns: 520px 1fr; gap: 88px; align-items: start; margin-top: -96px; padding-bottom: 110px; } /* z-index: la tarjeta debe pintarse por encima del banner que ahora es position:relative */
 .login--single { grid-template-columns: minmax(0, 560px); justify-content: center; }
 .login__card { padding: 44px; border-radius: 16px; background: #fff; box-shadow: 0 24px 56px rgba(6, 58, 134, .16); }
 .login__card h2 { margin: 0 0 14px; font-size: 36px; }
@@ -412,6 +419,12 @@ button.cal__cell:hover, .cal__cell.is-selected { background: var(--bg); }
   .footer__grid { grid-template-columns: 1fr 1fr; gap: 48px; }
   .footer__grid > :first-child { grid-column: 1 / -1; }
 }
+@media (max-width: 900px) {
+  .band--art .wrap { padding-right: var(--gutter); }
+  .band__art { inset: 0; width: auto; height: auto; }
+  .band__media { border-radius: 0; opacity: .2; }
+  .band__media::after, .band__dot { display: none; }
+}
 @media (max-width: 640px) {
   :root { --gutter: 20px; }
   .section { padding: 72px 0; }
@@ -475,21 +488,14 @@ button.cal__cell:hover, .cal__cell.is-selected { background: var(--bg); }
 .motion [data-speed], .motion .hero__media, .motion .hero__copy { will-change: translate; }
 .motion .photo__frame img { scale: 1.16; }
 .motion .photo:hover img { scale: 1.23; }
+.motion .band__media img { scale: 1.2; }
 .wl { opacity: .22; transition: opacity .4s; }
 .wl.lit { opacity: 1; }
 .progress { position: fixed; top: 0; left: 0; right: 0; z-index: 200; height: 3px; background: linear-gradient(90deg, var(--yellow), var(--blue)); transform-origin: left; transform: scaleX(var(--p, 0)); pointer-events: none; }
 
-/* Cursor (solo ratón): halo, anillo y etiqueta */
-.cursor, .cursor-glow { position: fixed; left: 0; top: 0; pointer-events: none; opacity: 0; transition: opacity .3s; }
-.cursor-glow { z-index: 90; width: 460px; height: 460px; margin: -230px 0 0 -230px; border-radius: 50%; background: radial-gradient(circle, rgba(255, 209, 102, .22), rgba(10, 88, 202, .07) 42%, transparent 68%); }
-.cursor { z-index: 9999; display: grid; place-items: center; width: 36px; height: 36px; margin: -18px 0 0 -18px; border: 1.5px solid #fff; border-radius: 50%; mix-blend-mode: difference; transition: opacity .3s, scale .35s cubic-bezier(.2, .8, .2, 1), width .4s cubic-bezier(.2, .8, .2, 1), height .4s cubic-bezier(.2, .8, .2, 1), margin .4s cubic-bezier(.2, .8, .2, 1), background-color .3s, border-color .3s; }
-.cursor span { font-size: 12px; font-weight: 700; letter-spacing: .04em; color: var(--navy); opacity: 0; transition: opacity .2s; }
-.cursor.on, .cursor-glow.on { opacity: 1; }
-.cursor.is-link { scale: 1.7; background: rgba(255, 255, 255, .18); }
-.cursor.is-down { scale: .8; }
-.cursor.is-text { opacity: 0 !important; }
-.cursor.has-label { width: 88px; height: 88px; margin: -44px 0 0 -44px; border-color: transparent; background: var(--yellow); mix-blend-mode: normal; }
-.cursor.has-label span { opacity: 1; }
+/* Cursor (solo ratón): un halo muy tenue */
+.cursor-glow { position: fixed; left: 0; top: 0; z-index: 90; width: 520px; height: 520px; margin: -260px 0 0 -260px; border-radius: 50%; pointer-events: none; opacity: 0; transition: opacity .6s; background: radial-gradient(circle, rgba(255, 209, 102, .07), rgba(10, 88, 202, .025) 45%, transparent 70%); }
+.cursor-glow.on { opacity: 1; }
 
 /* Inclinación 3D y foco de luz bajo el cursor */
 .motion-fine :is(.card, .strip__item, .event) { position: relative; }
@@ -504,7 +510,7 @@ button.cal__cell:hover, .cal__cell.is-selected { background: var(--bg); }
   .hero__slide.is-active { animation: kenburns 9s ease-out both; }
   @keyframes float { 50% { translate: 0 -12px; } }
   .hero__badge { animation: float 6s ease-in-out infinite; }
-  .photo__dot { animation: float 7s ease-in-out -2s infinite; }
+  .photo__dot, .band__dot { animation: float 7s ease-in-out -2s infinite; }
   @keyframes rise { from { opacity: 0; translate: 0 14px; } }
   @keyframes cell-in { from { opacity: 0; scale: .55; } }
   .cal__grid.anim .cal__cell { animation: cell-in .55s cubic-bezier(.34, 1.56, .64, 1) both; animation-delay: calc(var(--i, 0) * 14ms); }
