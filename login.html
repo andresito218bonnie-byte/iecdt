@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Portal académico | IE Ciudad de Tunja</title>
+  <meta name="description" content="Acceso al portal académico para estudiantes y docentes de la Institución Educativa Ciudad de Tunja.">
+  <script>document.documentElement.classList.add('js');setTimeout(function(){document.documentElement.classList.add('ready')},1800)</script>
+  <link rel="icon" type="image/png" href="assets/logo.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,700;1,9..144,500&family=Figtree:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/main.css">
+</head>
+<body data-page="login" data-header="min" data-footer="min">
+  <!-- La cabecera y el pie se insertan desde js/app.js -->
+
+  <main id="contenido">
+    <section class="band band--tall" id="band-login">
+      <div class="wrap">
+        <span class="eyebrow eyebrow--yellow">Portal académico</span>
+        <h1>Bienvenido <em>de nuevo</em></h1>
+        <p>Ingresa con tu usuario institucional para ver tus clases, tareas y novedades.</p>
+      </div>
+    </section>
+    <section class="band band--tall" id="band-recover" hidden>
+      <div class="wrap">
+        <span class="eyebrow eyebrow--yellow">Recuperar acceso</span>
+        <h1>¿Olvidaste tu <em>contraseña</em>?</h1>
+        <p>Tranquilo, te ayudamos a recuperarla en un par de pasos.</p>
+      </div>
+    </section>
+
+    <div class="wrap login">
+
+      <!-- Vista: iniciar sesión -->
+      <div class="login__card" id="view-login">
+        <div class="tabs" role="tablist" aria-label="Selecciona tu rol">
+          <button type="button" role="tab" data-role="estudiante" aria-selected="true">Estudiante</button>
+          <button type="button" role="tab" data-role="docente" aria-selected="false">Docente</button>
+        </div>
+        <form id="form-login" novalidate>
+          <div class="field">
+            <label for="usuario">Usuario o código institucional</label>
+            <input class="input" type="text" id="usuario" name="usuario" placeholder="Ej: 2027.jperez" autocomplete="username" required>
+          </div>
+          <div class="field field--pw">
+            <label for="password">Contraseña</label>
+            <input class="input" type="password" id="password" name="password" placeholder="••••••••" autocomplete="current-password" required>
+            <button class="field__toggle" id="pw-toggle" type="button" aria-pressed="false">Mostrar</button>
+          </div>
+          <div class="form-row">
+            <label class="check"><input type="checkbox" id="recordar" name="recordar"> Recordarme</label>
+            <a class="link" href="#recuperar">¿Olvidaste tu contraseña?</a>
+          </div>
+          <p class="form-error" id="login-error" role="alert" hidden></p>
+          <button class="btn btn--yellow btn--block" type="submit">Ingresar al portal →</button>
+        </form>
+        <p class="login__help">¿Problemas para ingresar? Escribe a <a href="mailto:soporte@institucion.edu.co">soporte@institucion.edu.co</a></p>
+      </div>
+
+      <!-- Vista: recuperar contraseña -->
+      <div class="login__card" id="view-recover" hidden>
+        <div id="paso-solicitar">
+          <h2>Recupera tu contraseña</h2>
+          <p>Ingresa tu usuario institucional o tu correo electrónico registrado. Te enviaremos un enlace para crear una nueva contraseña.</p>
+          <form id="form-recuperar" novalidate>
+            <div class="field">
+              <label for="usuario-recuperar">Usuario o correo electrónico</label>
+              <input class="input" type="text" id="usuario-recuperar" placeholder="Ej: 2027.jperez o jperez@institucion.edu.co" autocomplete="username" required>
+            </div>
+            <p class="form-error" id="recover-error" role="alert" hidden>Ingresa un usuario o correo válido.</p>
+            <button class="btn btn--yellow btn--block" type="submit">Enviar enlace de recuperación →</button>
+          </form>
+        </div>
+        <div id="paso-confirmacion" hidden>
+          <h2>Revisa tu correo</h2>
+          <p>Si el usuario <strong id="confirm-usuario" style="color:var(--navy)">—</strong> existe en nuestro sistema, en unos minutos recibirás un correo con las instrucciones para restablecer tu contraseña.</p>
+          <p class="recover__note">El enlace será válido durante 30 minutos.</p>
+          <a class="btn btn--blue btn--block" href="#acceso">Volver al inicio de sesión</a>
+          <button class="btn btn--outline btn--block" id="btn-reenviar" type="button">No recibí el correo, reenviar</button>
+        </div>
+        <p class="login__help">¿Sigues sin poder ingresar? Escribe a <a href="mailto:soporte@institucion.edu.co">soporte@institucion.edu.co</a></p>
+      </div>
+
+      <ul class="perks" id="perks">
+        <li><h3>Tus clases, en un solo lugar</h3><p>Consulta horarios, materiales y tareas de todas tus asignaturas.</p></li>
+        <li><h3>Novedades al instante</h3><p>Recibe avisos de tus docentes y del colegio sin perderte nada.</p></li>
+        <li><h3>Acceso seguro</h3><p>Solo estudiantes y docentes registrados pueden ingresar.</p></li>
+      </ul>
+    </div>
+  </main>
+
+  <script src="js/data.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

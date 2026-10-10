@@ -1,229 +1,41 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Sitio web oficial de la Institución Educativa Ciudad de Tunja. Formando líderes para el futuro con excelencia académica y valores.">
-    <title>Institución Educativa | Ciudad de Tunja</title>
-    
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="icon" type="image/png" href="assets/logo.png">
-    
-    <link rel="stylesheet" href="css/noticias.css">
-    <link rel="stylesheet" href="css/style.css">
-    
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Noticias | IE Ciudad de Tunja</title>
+  <meta name="description" content="Noticias y novedades de la Institución Educativa Ciudad de Tunja.">
+  <script>document.documentElement.classList.add('js');setTimeout(function(){document.documentElement.classList.add('ready')},1800)</script>
+  <link rel="icon" type="image/png" href="assets/logo.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,700;1,9..144,500&family=Figtree:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/main.css">
 </head>
-<body>
+<body data-page="noticias">
+  <!-- La cabecera y el pie se insertan desde js/app.js -->
 
-<header class="site-header">
-        
-        <div class="top-bar">
-            <div class="container top-bar__inner">
-                <div class="top-bar__contact">
-                    <a href="mailto:info@institucion.edu.co"><i class="fa-solid fa-envelope"></i> info@institucion.edu.co</a>
-                    <a href="tel:+576012345678"><i class="fa-solid fa-phone"></i> (601) 234 5678</a>
-                </div>
-                <div class="top-bar__actions">
-                    <a href="/portal-estudiantes" class="btn btn--small btn--outline">Portal Estudiantes</a>
-                    <a href="/portal-docentes" class="btn btn--small btn--outline">Portal Docentes</a>
-                </div>
-            </div>
-        </div>
+  <main id="contenido">
+    <div class="ticker" id="ticker" hidden>
+      <div class="wrap">
+        <span class="ticker__label">Última hora</span>
+        <div class="ticker__view"><span class="ticker__track"></span></div>
+      </div>
+    </div>
 
-        <nav class="navbar">
-            <div class="container navbar__inner">
-                
-                <a href="index.html" class="navbar__brand">
-                    <img src="assets/logo.png" alt="Logo Institución" width="60" height="60">
-                    <div class="navbar__brand-text">
-                        <span class="brand-title">IE Ciudad De Tunja</span>
-                        <span class="brand-subtitle">Colegio de Educación Tradicional</span>
-                    </div>
-                </a>
+    <!-- Listado -->
+    <section class="section section--page" id="news-list-view">
+      <div class="wrap news">
+        <div id="news-main"></div>
+        <aside class="aside" id="news-aside" aria-label="Barra lateral"></aside>
+      </div>
+    </section>
 
-                <button id="btn-hamburguesa" class="menu-toggle" aria-label="Abrir menú">
-                <i class="fa-solid fa-bars"></i>
-                </button>
+    <!-- Detalle de una noticia (noticias.html?id=...) -->
+    <div id="news-article-view" hidden></div>
+  </main>
 
-                <ul class="navbar__menu">
-                    <li class="navbar__item"><a href="index.html" class="navbar__link">Inicio</a></li>
-                    
-                    <li class="navbar__item has-dropdown">
-                        <a href="nuestra-historia.html" class="navbar__link">Institucional <i class="fa-solid fa-chevron-down"></i></a>
-                        <ul class="dropdown-menu">
-                            <li><a href="nuestra-historia.html">Nuestra Historia</a></li>
-                            <li><a href="mision-vision.html">Misión y Visión</a></li>
-                            <li><a href="/directorio">Directorio Institucional</a></li>
-                            <li><a href="/manual-convivencia">Manual de Convivencia</a></li>
-                        </ul>
-                    </li>
-                    
-                    <li class="navbar__item"><a href="index.html#academico" class="navbar__link">Académico</a></li>
-                    <li class="navbar__item"><a href="calendario.html" class="navbar__link">Calendario</a></li>
-                    <li class="navbar__item"><a href="noticias.html" class="navbar__link active">Noticias</a></li>
-                    
-                    <li class="navbar__item navbar__item--cta">
-                        <a href="admisiones.html" class="btn btn--primary">Matricúlate 2027</a>
-                    </li>
-                </ul>
-                
-            </div>
-        </nav>
-            </header> <div class="news-ticker-bar">
-            <div class="container ticker-container">
-                <span class="ticker-label"><i class="fa-solid fa-bolt"></i> Última hora:</span>
-                <div class="ticker-content"> 
-                    <marquee class="ticker-text" behavior="scroll" direction="left" scrollamount="5">
-                        Abiertas las inscripciones para las Olimpiadas Matemáticas 2024. | El equipo de baloncesto clasifica a la final departamental. | Próxima semana: Entrega de boletines.
-                    </marquee>
-                </div>
-            </div>
-        </div>
-
-<main class="news-portal-page">
-        <div class="container news-magazine-layout">
-            
-            <div class="main-news-column">
-                
-                <div id="contenedor-hero">
-                    </div>
-
-                <div class="section-header-small">
-                    <h2>Noticias Recientes</h2>
-                    <div class="header-line"></div>
-                </div>
-
-                <div class="recent-news-grid" id="contenedor-grid">
-                    </div>
-
-                <div class="pagination">
-                    <a href="#" class="page-link active">1</a>
-                    <a href="#" class="page-link">2</a>
-                    <a href="#" class="page-link">3</a>
-                    <span class="page-dots">...</span>
-                    <a href="#" class="page-link">Siguiente <i class="fa-solid fa-arrow-right"></i></a>
-                </div>
-            </div>
-
-            <aside class="sidebar">
-                <div class="widget">
-                    <h3 class="widget-title">Lo más leído</h3>
-                    <div class="trending-list">
-                        <a href="#" class="trending-item">
-                            <span class="trending-number">1</span>
-                            <div class="trending-info">
-                                <h4>Cronograma Matrículas 2025</h4>
-                                <span class="post-meta">Hace 2 días</span>
-                            </div>
-                        </a>
-                        <a href="#" class="trending-item">
-                            <span class="trending-number">2</span>
-                            <div class="trending-info">
-                                <h4>Menú de la cafetería escolar</h4>
-                                <span class="post-meta">Hace 5 días</span>
-                            </div>
-                        </a>
-                    </div>
-                </div>
-
-                <div class="widget">
-                    <h3 class="widget-title">Categorías</h3>
-                    <ul class="category-list">
-                        <li><a href="#">Académico <span>(24)</span></a></li>
-                        <li><a href="#">Deportes <span>(15)</span></a></li>
-                        <li><a href="#">Cultura y Arte <span>(9)</span></a></li>
-                        <li><a href="#">Ciencia y Tecnología <span>(12)</span></a></li>
-                    </ul>
-                </div>
-
-                <div class="widget newsletter-widget">
-                    <i class="fa-regular fa-envelope-open"></i>
-                    <h3>Suscríbete</h3>
-                    <p>Recibe las noticias en tu correo.</p>
-                    <form action="#" class="newsletter-form">
-                        <input type="email" placeholder="Tu correo" required>
-                        <button type="submit" class="btn btn--primary">Unirme</button>
-                    </form>
-                </div>
-            </aside>
-        </div>
-    </main>
-
-        <footer class="site-footer">
-        <div class="footer-top">
-            <div class="container footer-grid">
-                
-                <div class="footer-col footer-about">
-                    <img src="assets/logo.png" alt="Logo Institución Blanco" class="footer-logo">
-                    <p class="footer-desc">
-                        Comprometidos con la excelencia académica y la formación en valores para construir un futuro brillante.
-                    </p>
-                    <div class="social-links">
-                        <a href="#" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
-                        <a href="#" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
-                        <a href="#" aria-label="YouTube"><i class="fa-brands fa-youtube"></i></a>
-                    </div>
-                </div>
-
-                <div class="footer-col footer-links">
-                    <h4 class="footer-title">Enlaces Rápidos</h4>
-                    <ul>
-                        <li><a href="#inicio">Inicio</a></li>
-                        <li><a href="#nosotros">Nuestra Institución</a></li>
-                        <li><a href="#admisiones">Proceso de Admisión</a></li>
-                        <li><a href="/plataforma">Plataforma Académica</a></li>
-                        <li><a href="/pqrs">PQRS</a></li>
-                    </ul>
-                </div>
-
-                <div class="footer-col footer-links">
-                    <h4 class="footer-title">Legal y Transparencia</h4>
-                    <ul>
-                        <li><a href="/documentos/manual-convivencia.pdf" target="_blank">Manual de Convivencia</a></li>
-                        <li><a href="/documentos/sIEE.pdf" target="_blank">Sistema Institucional de Evaluación</a></li>
-                        <li><a href="/politicas-privacidad">Políticas de Privacidad</a></li>
-                        <li><a href="/tratamiento-datos">Tratamiento de Datos Personales</a></li>
-                    </ul>
-                </div>
-
-                <div class="footer-col footer-contact">
-                    <h4 class="footer-title">Contáctanos</h4>
-                    <ul class="contact-info">
-                        <li>
-                            <i class="fa-solid fa-map-location-dot"></i>
-                            <span>Calle 123 # 45 - 67<br>Ciudad, Departamento, País</span>
-                        </li>
-                        <li>
-                            <i class="fa-solid fa-phone"></i>
-                            <span>PBX: (601) 234 5678<br>Cel: (+57) 300 123 4567</span>
-                        </li>
-                        <li>
-                            <i class="fa-solid fa-envelope"></i>
-                            <span>admisiones@institucion.edu.co</span>
-                        </li>
-                    </ul>
-                </div>
-
-            </div>
-        </div>
-
-        <div class="footer-bottom">
-            <div class="container footer-bottom__inner">
-                <p>&copy; <span id="current-year">2024</span> Institución Educativa Ciudad de Tunja. Todos los derechos reservados.</p>
-                <p class="footer-credits">Diseñado con propósitos educativos.</p>
-            </div>
-        </div>
-    </footer>
-
-    <script src="noticias-db.js" defer></script>
-    <script src="main.js" defer></script>
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const yearSpan = document.getElementById('current-year');
-            if (yearSpan) yearSpan.textContent = new Date().getFullYear();
-        });
-    </script>
+  <script src="js/data.js"></script>
+  <script src="js/app.js"></script>
 </body>
 </html>
