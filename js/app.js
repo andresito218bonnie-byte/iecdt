@@ -535,7 +535,7 @@
     function setRol(r) {
       rol = r;
       tabs.forEach((t) => t.setAttribute('aria-selected', String(t.dataset.role === r)));
-      user.placeholder = r === 'docente' ? 'Ej: docente.jperez' : 'Ej: 2027.jperez';
+      user.placeholder = r === 'docente' ? 'Ej: docente.lgomez' : 'Ej: 2027.jperez';
     }
     setRol(rol);
     tabs.forEach((t) => t.addEventListener('click', () => setRol(t.dataset.role)));
@@ -548,20 +548,63 @@
       toggle.setAttribute('aria-pressed', String(oculto));
     });
 
+    /* --- Autenticación y enrutamiento por rol ---
+       autenticar() es el ÚNICO punto que se cambia al conectar Firebase Authentication:
+       debe devolver el perfil del usuario (con su rol) o null. Ver docs/sesion-y-roles.md. */
+    const DEMO = window.IE_DEMO;
+    const autenticar = (usuario /*, clave */) => (DEMO ? DEMO.buscar(usuario) : null);
+    const sesionDe = (p) => ({ uid: p.uid, usuario: p.usuario, nombre: p.nombre, rol: p.rol, inicio: Date.now() });
+    // Solo se acepta volver a la plataforma (evita redirecciones a sitios externos)
+    const nextSeguro = () => {
+      const n = new URLSearchParams(location.search).get('next') || '';
+      return /^plataforma\.html(#[a-z]+)?$/.test(n) ? n : null;
+    };
+
     $('#form-login').addEventListener('submit', (e) => {
       e.preventDefault();
       const u = user.value.trim();
-      const p = pass.value.trim();
-      if (!u || !p) { err.textContent = 'Por favor completa usuario y contraseña.'; err.hidden = false; return; }
+      const p = pass.value;
+      const falla = (msg, campo) => { err.textContent = msg; err.hidden = false; (campo || user).focus(); };
+      if (!u || !p) { falla('Por favor completa usuario y contraseña.', u ? pass : user); return; }
+      const perfil = autenticar(u, p);
+      if (!perfil) { falla('No encontramos ese usuario. Revisa tu código institucional.'); return; }
+      const destino = DEMO.destino(perfil.rol);
+      if (!destino) { falla('Tu perfil aún no tiene acceso al aula virtual.'); return; }
       err.hidden = true;
-      const visible = u.replace(/[._]/g, ' ').replace(/\d+/g, '').trim() || (rol === 'docente' ? 'Docente' : 'Estudiante');
-      sessionStorage.setItem('portalSesion', JSON.stringify({
-        usuario: u,
-        nombre: visible.charAt(0).toUpperCase() + visible.slice(1),
-        rol
-      }));
-      window.location.href = 'plataforma.html';
+      setRol(perfil.rol); // si eligió la pestaña equivocada, manda la que corresponde
+      try { sessionStorage.setItem('portalSesion', JSON.stringify(sesionDe(perfil))); } catch (_) { falla('Tu navegador bloquea el almacenamiento de sesión.'); return; }
+      window.location.href = nextSeguro() || destino;
     });
+
+    // Sesión ya iniciada: ofrecer continuar o cambiar de cuenta
+    const activa = $('#sesion-activa');
+    if (activa && DEMO) {
+      let ses = null;
+      try { ses = JSON.parse(sessionStorage.getItem('portalSesion') || 'null'); } catch (_) {}
+      const per = ses && DEMO.buscar(ses.usuario);
+      if (per && DEMO.destino(per.rol)) {
+        $('#sesion-nombre').textContent = per.nombre;
+        $('#sesion-rol').textContent = per.rol === 'docente' ? 'Docente' : `Estudiante · ${per.grado}°${per.grupo}`;
+        $('#sesion-ir').href = nextSeguro() || DEMO.destino(per.rol);
+        $('#sesion-salir').addEventListener('click', () => { sessionStorage.removeItem('portalSesion'); activa.hidden = true; user.focus(); });
+        activa.hidden = false;
+      }
+    }
+
+    // Cuentas de prueba (solo con modoDemo en data.js)
+    const caja = $('#demo-cuentas');
+    if (caja && DEMO && D.modoDemo) {
+      $('.demo-list', caja).innerHTML = DEMO.cuentas().map((c) =>
+        `<button type="button" class="demo-item" data-user="${esc(c.usuario)}" data-rol="${c.rol}"><b>${esc(c.nombre)}</b><span>${esc(c.detalle)}</span><code>${esc(c.usuario)}</code></button>`).join('');
+      caja.hidden = false;
+      caja.addEventListener('click', (e) => {
+        const b = e.target.closest('.demo-item');
+        if (!b) return;
+        setRol(b.dataset.rol);
+        user.value = b.dataset.user;
+        pass.focus();
+      });
+    }
 
     // --- Recuperar contraseña
     const recInput = $('#usuario-recuperar');

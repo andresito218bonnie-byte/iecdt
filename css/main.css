@@ -358,6 +358,24 @@ button.cal__cell:hover, .cal__cell.is-selected { background: var(--bg); }
 .perks h3 { margin-bottom: 8px; font-size: 30px; }
 .perks p { line-height: 1.65; color: var(--body); }
 
+/* Login: sesión activa y cuentas de demostración */
+.login-active { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 14px; margin-bottom: 26px; padding: 16px 18px; border-radius: var(--radius); background: var(--bg); border-left: 4px solid var(--yellow); }
+.login-active > div:first-child { display: grid; gap: 2px; }
+.login-active__label { font-size: 12px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); }
+.login-active b { color: var(--navy); }
+.login-active span:last-child { font-size: 14px; color: var(--body); }
+.login-active__actions { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
+.login-active .btn { min-height: 42px; padding: 0 20px; }
+.demo-box { margin-top: 22px; padding: 14px 16px; border: 1.5px dashed var(--line); border-radius: var(--radius); font-size: 14px; }
+.demo-box summary { cursor: pointer; font-weight: 700; color: var(--navy); }
+.demo-box p { margin: 10px 0 12px; color: var(--muted); line-height: 1.5; }
+.demo-list { display: grid; gap: 8px; }
+.demo-item { display: grid; grid-template-columns: 1fr auto; gap: 2px 12px; width: 100%; padding: 10px 12px; border: 1px solid var(--line); border-radius: 10px; background: #fff; text-align: left; transition: border-color .2s, background-color .2s; }
+.demo-item:hover { border-color: var(--blue); background: var(--bg); }
+.demo-item b { color: var(--navy); }
+.demo-item span { grid-column: 1; font-size: 13px; color: var(--muted); }
+.demo-item code { grid-column: 2; grid-row: 1 / span 2; align-self: center; font-size: 12px; color: var(--blue); }
+
 /* 11 · PIE -------------------------------------------------- */
 .footer { padding: 80px 0 40px; background: var(--navy); color: var(--on-navy); }
 .footer__grid { display: grid; grid-template-columns: 1.4fr 1fr 1fr; gap: 64px; padding-bottom: 56px; border-bottom: 1px solid rgba(255, 255, 255, .18); }

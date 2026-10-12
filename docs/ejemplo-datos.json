@@ -1,0 +1,52 @@
+{
+  "users/{uid}": {
+    "displayName": "Nombre de demostración",
+    "email": "usuario@ejemplo.invalid",
+    "status": "active",
+    "createdAt": "<Firestore Timestamp>",
+    "updatedAt": "<Firestore Timestamp>"
+  },
+  "userRoles/{uid}": {
+    "roles": ["student"],
+    "updatedAt": "<Firestore Timestamp>",
+    "updatedBy": "<uid autorizado>"
+  },
+  "classrooms/{classId}": {
+    "subjectName": "Estadística",
+    "grade": "11",
+    "group": "A",
+    "room": "Aula 108",
+    "teacherUids": ["<teacherUid>"],
+    "studentUids": ["<studentUid>"],
+    "status": "active"
+  },
+  "assignments/{assignmentId}": {
+    "classId": "<classId>",
+    "title": "Proyecto de estadística",
+    "instructions": "Instrucciones de ejemplo",
+    "createdBy": "<teacherUid>",
+    "dueAt": "<Firestore Timestamp>",
+    "status": "published",
+    "maxScore": 5
+  },
+  "submissions/{submissionId}": {
+    "assignmentId": "<assignmentId>",
+    "classId": "<classId>",
+    "studentUid": "<studentUid>",
+    "fileRefs": [
+      {
+        "storagePath": "submissions/<classId>/<assignmentId>/<studentUid>/trabajo.pdf",
+        "name": "trabajo.pdf",
+        "contentType": "application/pdf",
+        "sizeBytes": 123456
+      }
+    ],
+    "comment": "Comentario de ejemplo",
+    "submittedAt": "<Firestore Timestamp>",
+    "status": "submitted",
+    "score": null,
+    "feedback": null,
+    "gradedBy": null,
+    "gradedAt": null
+  }
+}

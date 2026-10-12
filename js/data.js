@@ -46,6 +46,11 @@ window.SITIO = {
      Vacío = el bloque no se muestra. */
   masLeidas: [],
 
+  /* ---------- Modo demostración del login ----------
+     true  = login.html muestra las cuentas de prueba (js/demo-usuarios.js) y acepta cualquier contraseña.
+     false = ocúltalas. Al conectar Firebase Authentication este modo deja de existir. */
+  modoDemo: true,
+
   /* ---------- Formulario de inscripción (Google Forms) ---------- */
   formularioAdmision: 'https://docs.google.com/forms/d/e/1FAIpQLSeH1w_sf5rlU2LFz538Z5_Lo__ey0PWvKCal2VehwLyU-8fKw/viewform?usp=dialog',
 

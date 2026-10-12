@@ -43,6 +43,10 @@
 
       <!-- Vista: iniciar sesión -->
       <div class="login__card" id="view-login">
+        <div class="login-active" id="sesion-activa" hidden>
+          <div><span class="login-active__label">Sesión activa</span><b id="sesion-nombre"></b><span id="sesion-rol"></span></div>
+          <div class="login-active__actions"><a class="btn btn--blue" id="sesion-ir" href="plataforma.html">Continuar</a><button class="link" type="button" id="sesion-salir">Cambiar de cuenta</button></div>
+        </div>
         <div class="tabs" role="tablist" aria-label="Selecciona tu rol">
           <button type="button" role="tab" data-role="estudiante" aria-selected="true">Estudiante</button>
           <button type="button" role="tab" data-role="docente" aria-selected="false">Docente</button>
@@ -65,6 +69,11 @@
           <button class="btn btn--yellow btn--block" type="submit">Ingresar al portal →</button>
         </form>
         <p class="login__help">¿Problemas para ingresar? Escribe a <a href="mailto:soporte@institucion.edu.co">soporte@institucion.edu.co</a></p>
+        <details class="demo-box" id="demo-cuentas" hidden>
+          <summary>Cuentas de demostración</summary>
+          <p>Datos ficticios. En esta demostración no se valida la contraseña: escribe cualquiera.</p>
+          <div class="demo-list"></div>
+        </details>
       </div>
 
       <!-- Vista: recuperar contraseña -->
@@ -99,6 +108,7 @@
     </div>
   </main>
 
+  <script src="js/demo-usuarios.js"></script>
   <script src="js/data.js"></script>
   <script src="js/app.js"></script>
 </body>
